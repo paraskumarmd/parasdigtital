@@ -20,9 +20,15 @@ const navigation = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
+
+  // Only render theme toggle after component mounts (client-side only)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,14 +78,16 @@ export function Header() {
         </motion.div>
 
         <div className="flex lg:hidden items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={cycleTheme}
-            className="relative"
-          >
-            {getThemeIcon()}
-          </Button>
+          {mounted && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={cycleTheme}
+              className="relative"
+            >
+              {getThemeIcon()}
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
@@ -124,14 +132,16 @@ export function Header() {
           animate={{ opacity: 1, x: 0 }}
           className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-4"
         >
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={cycleTheme}
-            className="relative"
-          >
-            {getThemeIcon()}
-          </Button>
+          {mounted && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={cycleTheme}
+              className="relative"
+            >
+              {getThemeIcon()}
+            </Button>
+          )}
           <Button
             onClick={() => navigateToPage('/contact')}
             className="bg-primary text-primary-foreground hover:bg-primary/90"

@@ -5,7 +5,10 @@ const nextConfig = {
   },
   images: { unoptimized: true },
   
-  // Cloudflare Pages optimization
+  // Enable hybrid rendering for best performance + API routes
+  // Pages are statically generated when possible, dynamic when needed
+  
+  // Performance optimizations for hybrid rendering
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
@@ -44,9 +47,6 @@ const nextConfig = {
   
   // Enable compression
   compress: true,
-  
-  // Reduce output size
-  swcMinify: true,
 };
 
 module.exports = nextConfig;
