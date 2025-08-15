@@ -4,6 +4,9 @@ import { createServerSupabaseClient } from '@/lib/supabase';
 // Force dynamic rendering for this API route
 export const dynamic = 'force-dynamic';
 
+// Required for Cloudflare Pages compatibility
+export const runtime = 'edge';
+
 export async function GET() {
   try {
     const supabase = createServerSupabaseClient();

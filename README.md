@@ -86,23 +86,27 @@ parasdigtital/
    cp env.example .env.local
    ```
    
-   Update `.env.local` with your credentials:
-   ```env
-   # Supabase Configuration
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-   
-   # Email Configuration
-   EMAIL_HOST=smtp.gmail.com
-   EMAIL_PORT=465
-   EMAIL_USER=your_email@gmail.com
-   EMAIL_PASS=your_app_password
-   EMAIL_TO=paraskumar.desh@gmail.com
-   
-   # Database Table Name
-   CONTACT_TABLE_NAME=contact_submissions
-   ```
+       Update `.env.local` with your credentials:
+    ```env
+    # Supabase Configuration
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+    SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+    
+    # Notion API Configuration
+    NOTION_API_KEY=your_notion_integration_token
+    NOTION_DATABASE_ID=your_notion_database_id
+    
+    # Email Configuration
+    EMAIL_HOST=smtp.gmail.com
+    EMAIL_PORT=465
+    EMAIL_USER=your_email@gmail.com
+    EMAIL_PASS=your_app_password
+    EMAIL_TO=paraskumar.desh@gmail.com
+    
+    # Database Table Name
+    CONTACT_TABLE_NAME=contact_submissions
+    ```
 
 4. **Set up Supabase database**
    - Create a new Supabase project
@@ -120,6 +124,26 @@ parasdigtital/
 ## 📧 Contact Form Setup
 
 The contact form integrates with Supabase for data storage and sends email notifications. See [CONTACT_FORM_SETUP.md](./CONTACT_FORM_SETUP.md) for detailed setup instructions.
+
+## 🔄 Content Revalidation
+
+Your website automatically caches content for performance. To refresh content after updates:
+
+### Environment Variable
+Add to your `.env.local` and Cloudflare Pages:
+```env
+REVALIDATE_SECRET=your_super_secret_key_here
+```
+
+### Manual Revalidation
+After updating Notion content, run:
+```bash
+curl -X POST https://your-domain.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"your_super_secret_key_here","path":"/blog"}'
+```
+
+**Note**: Replace `your-domain.com` with your actual Cloudflare Pages domain.
 
 ### Key Features
 - Form validation (client and server-side)
@@ -155,7 +179,20 @@ The contact form integrates with Supabase for data storage and sends email notif
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Cloudflare Pages (Recommended - Free)
+1. **Create Cloudflare Account**: Sign up at [cloudflare.com](https://cloudflare.com)
+2. **Connect Repository**: Go to Pages → Create project → Connect GitHub
+3. **Configure Build Settings**:
+   - Framework preset: Next.js
+   - Build command: `npm run build`
+   - Build output directory: `.next`
+4. **Set Environment Variables**: Add all variables from `.env.local`
+5. **Deploy**: Click "Save and Deploy"
+6. **Custom Domain**: Add your domain in Cloudflare dashboard
+
+**Benefits**: 100% free, global CDN, automatic HTTPS, Git integration
+
+### Vercel (Alternative)
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
@@ -178,6 +215,7 @@ The contact form integrates with Supabase for data storage and sends email notif
 - **Image Optimization**: Next.js Image component with optimization
 - **Code Splitting**: Automatic route-based code splitting
 - **SEO**: Meta tags, structured data, and Open Graph
+- **Cloudflare CDN**: Global content delivery for fast loading worldwide
 
 ## 🔒 Security
 

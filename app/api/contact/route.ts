@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer'; // Temporarily disabled for Edge Runtime
 
 // Force dynamic rendering for this API route
 export const dynamic = 'force-dynamic';
+
+// Required for Cloudflare Pages compatibility
+export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,8 +57,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Send email notification
-    const transporter = nodemailer.createTransport({
+    // Send email notification (commented out for Edge Runtime compatibility)
+    // Note: Nodemailer doesn't work in Edge Runtime
+    // For production, consider using Cloudflare Email or Resend
+    /*
+    const transporter = nodemailer.createTransporter({
       host: process.env.EMAIL_HOST,
       port: parseInt(process.env.EMAIL_PORT || '587'),
       secure: false, // true for 465, false for other ports
@@ -72,8 +78,7 @@ export async function POST(request: NextRequest) {
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Email:</strong> ${subject}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
         <hr>
@@ -83,6 +88,9 @@ export async function POST(request: NextRequest) {
     };
 
     await transporter.sendMail(mailOptions);
+    */
+    
+    console.log('Email sending temporarily disabled for Edge Runtime compatibility');
 
     return NextResponse.json({
       success: true,
