@@ -1,5 +1,6 @@
 import { getBlogPosts } from '@/lib/notion';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 // Add ISR for automatic updates
@@ -27,7 +28,15 @@ export default async function BlogPage() {
             <Link key={post.id} href={`/blog/${slug}`} className="block">
               <div className="bg-background rounded-lg shadow p-6 flex flex-col hover:shadow-lg transition-shadow cursor-pointer">
                 {image && (
-                  <img src={image} alt={title} className="w-full h-48 object-cover rounded mb-4" />
+                  <div className="relative w-full h-48 mb-4">
+                    <Image 
+                      src={image} 
+                      alt={title} 
+                      fill
+                      className="object-cover rounded"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
                 )}
                 <h2 className="text-2xl font-semibold mb-2 text-foreground">{title}</h2>
                 <p className="text-muted-foreground mb-4 flex-grow">{description}</p>

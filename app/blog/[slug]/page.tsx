@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Client } from '@notionhq/client';
 import { getPageContent } from '@/lib/notion';
+import Image from 'next/image';
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
@@ -61,7 +62,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     <main className="max-w-4xl mx-auto py-20 px-4">
       <article>
         {image && (
-          <img src={image} alt={title} className="w-full h-64 object-cover rounded-lg mb-8" />
+          <div className="relative w-full h-64 mb-8">
+            <Image 
+              src={image} 
+              alt={title} 
+              fill
+              className="object-cover rounded-lg"
+              sizes="(max-width: 768px) 100vw, 800px"
+            />
+          </div>
         )}
         <h1 className="text-4xl font-bold mb-6 text-foreground">{title}</h1>
         <div className="prose prose-lg max-w-none">
@@ -101,11 +110,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               const caption = block.image.caption?.[0]?.plain_text || '';
               return (
                 <figure key={block.id} className="my-6">
-                  <img 
-                    src={imageUrl} 
-                    alt={caption || 'Blog image'} 
-                    className="w-full h-auto rounded-lg"
-                  />
+                  <div className="relative w-full h-96">
+                    <Image 
+                      src={imageUrl} 
+                      alt={caption || 'Blog image'} 
+                      fill
+                      className="object-contain rounded-lg"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                    />
+                  </div>
                   {caption && (
                     <figcaption className="text-sm text-muted-foreground mt-2 text-center">
                       {caption}

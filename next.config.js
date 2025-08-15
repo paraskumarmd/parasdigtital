@@ -3,7 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
+  images: { 
+    domains: ['prod-files-secure.s3.us-west-2.amazonaws.com', 's3.us-west-2.amazonaws.com'],
+    unoptimized: false,
+  },
   
   // Enable hybrid rendering for best performance + API routes
   // Pages are statically generated when possible, dynamic when needed
