@@ -41,9 +41,9 @@ async function getBlogPost(slug: string) {
   return response.results[0] || null;
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   //console.log('BlogPostPage called with params:', params);
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogPost(slug);
 
   if (!post) {
