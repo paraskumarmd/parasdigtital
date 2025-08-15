@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
+
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
