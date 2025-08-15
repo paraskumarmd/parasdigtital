@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
           subject,
           message,
           submitted_at: new Date().toISOString(),
-          ip_address: request.headers.get('x-forwarded-for') || request.ip || 'unknown'
+          ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
         }
       ])
       .select();
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
         <p>${message.replace(/\n/g, '<br>')}</p>
         <hr>
         <p><small>Submitted at: ${new Date().toLocaleString()}</small></p>
-        <p><small>IP Address: ${request.headers.get('x-forwarded-for') || request.ip || 'unknown'}</small></p>
+        <p><small>IP Address: ${request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'}</small></p>
       `,
     };
 
