@@ -18,10 +18,11 @@ export const metadata: Metadata = {
   keywords: ['AI consultant', 'digital marketing', 'machine learning', 'SEO', 'marketing automation', 'AI strategy'],
   authors: [{ name: 'Paras Digital' }],
   creator: 'Paras Digital',
+  metadataBase: new URL('https://parasdigtital.vercel.app'), // Add your actual domain here
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://alexjohnson.dev',
+    url: 'https://parasdigtital.vercel.app',
     title: 'Paras Digital - AI Enthusiast & Digital Marketing Strategist',
     description: 'Professional AI consultant and digital marketing strategist helping businesses leverage artificial intelligence for growth and optimization.',
     siteName: 'Paras Digital Portfolio',
@@ -66,7 +67,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://alexjohnson.dev" />
+        <link rel="canonical" href="https://parasdigital.com" />
       </head>
       <body className={cn(
         inter.variable,
