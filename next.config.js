@@ -11,6 +11,7 @@ const nextConfig = {
   // Performance optimizations for hybrid rendering
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    modern: true, // Target modern browsers only
   },
   
   // Reduce bundle size
@@ -47,6 +48,12 @@ const nextConfig = {
   
   // Enable compression
   compress: true,
+  
+  // Target modern browsers only (ES2020+)
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    modern: true,
+  },
 };
 
 module.exports = nextConfig;
