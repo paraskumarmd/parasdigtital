@@ -16,7 +16,13 @@ export async function generateStaticParams() {
     database_id: databaseId,
   });
   
-  return response.results.map((post: any) => ({
+  // Only generate static pages for published posts
+  const publishedPosts = response.results.filter((post: any) => {
+    const status = post.properties?.Status?.status?.name || '';
+    return status.toLowerCase() === 'published';
+  });
+  
+  return publishedPosts.map((post: any) => ({
     slug: post.properties?.Slug?.rich_text?.[0]?.plain_text || post.id,
   }));
 }
@@ -51,6 +57,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   const postData = post as any; // Type assertion for Notion response
+  
+  // Check if the post is published
+  const status = postData.properties?.Status?.status?.name || '';
+  if (status.toLowerCase() !== 'published') {
+    notFound(); // Hide unpublished posts
+  }
+  
   const title = postData.properties?.Title?.title?.[0]?.plain_text || 'Untitled';
   const image = postData.properties?.featuredImage?.files?.[0]?.file?.url || postData.properties?.featuredImage?.files?.[0]?.external?.url || '';
 

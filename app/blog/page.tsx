@@ -15,15 +15,34 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const posts = await getBlogPosts();
 
+  // Debug: Log all posts and their status values
+  console.log('=== BLOG PAGE DEBUG ===');
+  console.log('Total posts found:', posts.length);
+  posts.forEach((post: any, index: number) => {
+    const title = post.properties?.Title?.title?.[0]?.plain_text || 'Untitled';
+    const status = post.properties?.Status?.status?.name || '';
+    console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`);
+  });
+  console.log('=== END DEBUG ===');
+
+  // Filter posts to only show published ones
+  const publishedPosts = posts.filter((post: any) => {
+    const status = post.properties?.Status?.status?.name || '';
+    return status.toLowerCase() === 'published';
+  });
+
+  console.log('Published posts count:', publishedPosts.length);
+
   return (
     <main className="max-w-4xl mx-auto py-20 px-4">
       <h1 className="text-4xl font-bold mb-6 text-foreground">Blog</h1>
       <div className="grid md:grid-cols-2 gap-8">
-        {posts.map((post: any) => {
+        {publishedPosts.map((post: any) => {
           const title = post.properties?.Title?.title?.[0]?.plain_text || 'Untitled';
           const description = post.properties?.Blogs?.rich_text?.[0]?.plain_text || '';
           const image = post.properties?.featuredImage?.files?.[0]?.file?.url || post.properties?.featuredImage?.files?.[0]?.external?.url || '';
           const slug = post.properties?.Slug?.rich_text?.[0]?.plain_text || '';
+          
           return (
             <Link key={post.id} href={`/blog/${slug}`} className="block">
               <div className="bg-background rounded-lg shadow p-6 flex flex-col hover:shadow-lg transition-shadow cursor-pointer">
