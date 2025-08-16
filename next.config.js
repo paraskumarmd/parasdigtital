@@ -14,7 +14,6 @@ const nextConfig = {
   // Performance optimizations for hybrid rendering
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    modern: true, // Target modern browsers only
   },
   
   // Reduce bundle size
@@ -51,11 +50,16 @@ const nextConfig = {
   
   // Enable compression
   compress: true,
-  
-  // Target modern browsers only (ES2020+)
-  experimental: {
-    optimizePackageImports: ['lucide-react'],
-    modern: true,
+
+  // ✅ Redirects for SEO & domain handling
+  async redirects() {
+    return [
+      {
+        source: '/www/:path*',
+        destination: '/:path*',
+        permanent: true, // redirect www -> root domain
+      },
+    ];
   },
 };
 
