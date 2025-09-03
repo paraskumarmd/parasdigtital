@@ -8,13 +8,13 @@ import { Button } from '@/components/ui/button';
 const services = [
   {
     icon: Brain,
-    title: "AI Strategy & Implementation",
-    description: "Transform your business with custom AI solutions designed for your specific needs and goals.",
+    title: "Account Audit and Strategy",
+    description: "Gap analysis of existing ad accounts and digital marketing strategies based on past performance while identifying new growth opportunities.",
     features: [
-      "AI Readiness Assessment",
-      "Custom Model Development",
-      "Implementation Roadmap",
-      "Performance Monitoring"
+      "Account Audit and Assessment",
+      "Optimisations and improvements",
+      "Strategy and Implementation Roadmap",
+      "Competitor Analysis"
     ],
     color: "from-blue-500 to-cyan-500"
   },
@@ -23,10 +23,11 @@ const services = [
     title: "Digital Marketing Analytics",
     description: "Leverage advanced analytics to understand your audience and optimize campaign performance.",
     features: [
-      "Advanced Attribution Modeling",
-      "Customer Journey Analysis",
-      "Predictive Analytics",
+      "Ad platform and website tracking setup audit",
+      "Enhanced conversion setup",
+      "Server side tracking setup",
       "Real-time Dashboards"
+
     ],
     color: "from-purple-500 to-pink-500"
   },
@@ -35,10 +36,11 @@ const services = [
     title: "Marketing Automation",
     description: "Streamline your marketing processes with intelligent automation that scales with your business.",
     features: [
-      "Email Campaign Automation",
+      "Lead capture and nurture automation",
       "Lead Scoring Systems",
-      "Behavioral Triggers",
+      "Remarketing strategy",
       "Cross-channel Orchestration"
+
     ],
     color: "from-orange-500 to-red-500"
   },
@@ -48,9 +50,9 @@ const services = [
     description: "Create personalized experiences that engage customers and drive conversions at every touchpoint.",
     features: [
       "Dynamic Content Optimization",
-      "Recommendation Engines",
+      "Custom tool development for process optimization",
       "A/B Testing Framework",
-      "Customer Segmentation"
+      "SEO & Generative Engine Optimization (GEO)"
     ],
     color: "from-green-500 to-teal-500"
   }
