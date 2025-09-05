@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Client } from '@notionhq/client';
 import { getPageContent } from '@/lib/notion';
 import Image from 'next/image';
+import { CodeBlock } from '@/components/ui/syntax-highlighter';
 
 // Add ISR for automatic updates
 // export const revalidate = 86400; // Revalidate every day
@@ -183,12 +184,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </blockquote>
                   );
                 } else if (block.type === 'code') {
+                  const code = block.code.rich_text.map((text: any) => text.plain_text).join('');
+                  const language = block.code.language || 'text';
+                  
                   elements.push(
-                    <pre key={block.id} className="bg-muted p-4 rounded-lg overflow-x-auto my-4">
-                      <code className="text-sm">
-                        {block.code.rich_text.map((text: any) => text.plain_text).join('')}
-                      </code>
-                    </pre>
+                    <CodeBlock 
+                      key={block.id} 
+                      code={code} 
+                      language={language} 
+                    />
                   );
                 } else if (block.type === 'to_do') {
                   const isChecked = block.to_do.checked;
