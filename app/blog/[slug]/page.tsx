@@ -3,13 +3,12 @@ import { Client } from '@notionhq/client';
 import { getPageContent } from '@/lib/notion';
 import Image from 'next/image';
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-
 // Add ISR for automatic updates
-export const revalidate = 86400; // Revalidate every day (3600 seconds)
+// export const revalidate = 86400; // Revalidate every day
 
 // Add this function to generate all possible routes at build time
 export async function generateStaticParams() {
+  const notion = new Client({ auth: process.env.NOTION_API_KEY });
   const databaseId = process.env.NOTION_DATABASE_ID!;
   
   const response = await notion.databases.query({
@@ -28,6 +27,7 @@ export async function generateStaticParams() {
 }
 
 async function getBlogPost(slug: string) {
+  const notion = new Client({ auth: process.env.NOTION_API_KEY });
   const databaseId = process.env.NOTION_DATABASE_ID!;
   //console.log('Searching for slug:', slug);
   
@@ -87,86 +87,134 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         )}
         <h1 className="text-4xl font-bold mb-6 text-foreground">{title}</h1>
         <div className="prose prose-lg max-w-none">
-          {pageContent.map((block: any, index: number) => {
-            if (block.type === 'paragraph') {
-              return (
-                <p key={block.id} className="text-muted-foreground leading-relaxed mb-4">
-                  {block.paragraph.rich_text.map((text: any) => text.plain_text).join('')}
-                </p>
-              );
-            }
-            if (block.type === 'heading_1') {
-              return (
-                <h2 key={block.id} className="text-2xl font-bold mb-4 text-foreground">
-                  {block.heading_1.rich_text.map((text: any) => text.plain_text).join('')}
-                </h2>
-              );
-            }
-            if (block.type === 'heading_2') {
-              return (
-                <h3 key={block.id} className="text-xl font-semibold mb-3 text-foreground">
-                  {block.heading_2.rich_text.map((text: any) => text.plain_text).join('')}
-                </h3>
-              );
-            }
-            if (block.type === 'bulleted_list_item') {
-              return (
-                <ul key={block.id} className="list-disc list-inside mb-4">
-                  <li className="text-muted-foreground leading-relaxed">
-                    {block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}
-                  </li>
-                </ul>
-              );
-            }
-            if (block.type === 'image') {
-              const imageUrl = block.image.file?.url || block.image.external?.url || '';
-              const caption = block.image.caption?.[0]?.plain_text || '';
-              return (
-                <figure key={block.id} className="my-6">
-                  <div className="relative w-full h-96">
-                    <Image 
-                      src={imageUrl} 
-                      alt={caption || 'Blog image'} 
-                      fill
-                      className="object-contain rounded-lg"
-                      sizes="(max-width: 768px) 100vw, 800px"
-                    />
-                  </div>
-                  {caption && (
-                    <figcaption className="text-sm text-muted-foreground mt-2 text-center">
-                      {caption}
-                    </figcaption>
-                  )}
-                </figure>
-              );
-            }
-            if (block.type === 'numbered_list_item') {
-              return (
-                <ol key={block.id} className="list-decimal list-inside mb-4">
-                  <li className="text-muted-foreground leading-relaxed">
-                    {block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')}
-                  </li>
-                </ol>
-              );
-            }
-            if (block.type === 'quote') {
-              return (
-                <blockquote key={block.id} className="border-l-4 border-primary pl-4 my-6 italic text-muted-foreground">
-                  {block.quote.rich_text.map((text: any) => text.plain_text).join('')}
-                </blockquote>
-              );
-            }
-            if (block.type === 'code') {
-              return (
-                <pre key={block.id} className="bg-muted p-4 rounded-lg overflow-x-auto my-4">
-                  <code className="text-sm">
-                    {block.code.rich_text.map((text: any) => text.plain_text).join('')}
-                  </code>
-                </pre>
-              );
-            }
-            return null;
-          })}
+          {(() => {
+            const renderBlocks = () => {
+              const elements: JSX.Element[] = [];
+              let i = 0;
+
+              while (i < pageContent.length) {
+                const block = pageContent[i];
+
+                if (block.type === 'paragraph') {
+                  elements.push(
+                    <p key={block.id} className="text-muted-foreground leading-relaxed mb-4">
+                      {block.paragraph.rich_text.map((text: any) => text.plain_text).join('')}
+                    </p>
+                  );
+                } else if (block.type === 'heading_1') {
+                  elements.push(
+                    <h2 key={block.id} className="text-2xl font-bold mb-4 text-foreground">
+                      {block.heading_1.rich_text.map((text: any) => text.plain_text).join('')}
+                    </h2>
+                  );
+                } else if (block.type === 'heading_2') {
+                  elements.push(
+                    <h3 key={block.id} className="text-xl font-semibold mb-3 text-foreground">
+                      {block.heading_2.rich_text.map((text: any) => text.plain_text).join('')}
+                    </h3>
+                  );
+                } else if (block.type === 'heading_3') {
+                  elements.push(
+                    <h4 key={block.id} className="text-lg font-semibold mb-2 text-foreground">
+                      {block.heading_3.rich_text.map((text: any) => text.plain_text).join('')}
+                    </h4>
+                  );
+                } else if (block.type === 'bulleted_list_item') {
+                  // Group consecutive bulleted list items
+                  const bulletedItems = [];
+                  while (i < pageContent.length && pageContent[i].type === 'bulleted_list_item') {
+                    bulletedItems.push(pageContent[i]);
+                    i++;
+                  }
+                  i--; // Adjust for the outer loop increment
+                  
+                  elements.push(
+                    <ul key={`bulleted-${bulletedItems[0].id}`} className="list-disc list-inside mb-4">
+                      {bulletedItems.map((item: any) => (
+                        <li key={item.id} className="text-muted-foreground leading-relaxed">
+                          {item.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')}
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                } else if (block.type === 'numbered_list_item') {
+                  // Group consecutive numbered list items
+                  const numberedItems = [];
+                  while (i < pageContent.length && pageContent[i].type === 'numbered_list_item') {
+                    numberedItems.push(pageContent[i]);
+                    i++;
+                  }
+                  i--; // Adjust for the outer loop increment
+                  
+                  elements.push(
+                    <ol key={`numbered-${numberedItems[0].id}`} className="list-decimal list-inside mb-4">
+                      {numberedItems.map((item: any) => (
+                        <li key={item.id} className="text-muted-foreground leading-relaxed">
+                          {item.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')}
+                        </li>
+                      ))}
+                    </ol>
+                  );
+                } else if (block.type === 'image') {
+                  const imageUrl = block.image.file?.url || block.image.external?.url || '';
+                  const caption = block.image.caption?.[0]?.plain_text || '';
+                  elements.push(
+                    <figure key={block.id} className="my-6">
+                      <div className="relative w-full h-96">
+                        <Image 
+                          src={imageUrl} 
+                          alt={caption || 'Blog image'} 
+                          fill
+                          className="object-contain rounded-lg"
+                          sizes="(max-width: 768px) 100vw, 800px"
+                        />
+                      </div>
+                      {caption && (
+                        <figcaption className="text-sm text-muted-foreground mt-2 text-center">
+                          {caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  );
+                } else if (block.type === 'quote') {
+                  elements.push(
+                    <blockquote key={block.id} className="border-l-4 border-primary pl-4 my-6 italic text-muted-foreground">
+                      {block.quote.rich_text.map((text: any) => text.plain_text).join('')}
+                    </blockquote>
+                  );
+                } else if (block.type === 'code') {
+                  elements.push(
+                    <pre key={block.id} className="bg-muted p-4 rounded-lg overflow-x-auto my-4">
+                      <code className="text-sm">
+                        {block.code.rich_text.map((text: any) => text.plain_text).join('')}
+                      </code>
+                    </pre>
+                  );
+                } else if (block.type === 'to_do') {
+                  const isChecked = block.to_do.checked;
+                  elements.push(
+                    <div key={block.id} className="flex items-start gap-2 mb-2">
+                      <input 
+                        type="checkbox" 
+                        checked={isChecked}
+                        readOnly
+                        className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className={`text-muted-foreground leading-relaxed ${isChecked ? 'line-through opacity-60' : ''}`}>
+                        {block.to_do.rich_text.map((text: any) => text.plain_text).join('')}
+                      </span>
+                    </div>
+                  );
+                }
+
+                i++;
+              }
+
+              return elements;
+            };
+
+            return renderBlocks();
+          })()}
         </div>
       </article>
     </main>

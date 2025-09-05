@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Brain, Target, Zap, Users, Award, Lightbulb } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 
 const skills = [
   { name: 'Machine Learning', level: 95, icon: Brain },
@@ -56,11 +57,21 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <div className="relative">
-              <div className="w-32 h-32 bg-gradient-to-br from-primary to-accent rounded-full mx-auto lg:mx-0 mb-8 relative overflow-hidden">
-                <div className="absolute inset-2 bg-background rounded-full flex items-center justify-center">
-                  <Brain className="w-12 h-12 text-primary" />
-                </div>
+            {/* Profile Picture Section */}
+            <div className="relative mb-8">
+              <div className="w-40 h-40 rounded-full mx-auto lg:mx-0 relative overflow-hidden shadow-lg border-4 border-primary/20">
+                <Image 
+                  src="/paras-profile-pic.png" 
+                  alt="Profile Picture" 
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 160px, 160px"
+                  priority
+                />
+              </div>
+              {/* Optional: Add a subtle border or decoration */}
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-accent rounded-full flex items-center justify-center shadow-md">
+                <Award className="w-4 h-4 text-background" />
               </div>
             </div>
 

@@ -19,9 +19,21 @@ export async function getBlogPosts() {
 }
 
 export async function getPageContent(pageId: string) {
-  const response = await notion.blocks.children.list({
-    block_id: pageId,
-  });
-  
-  return response.results;
+  let allBlocks: any[] = [];
+  let hasMore = true;
+  let nextCursor: string | undefined = undefined;
+
+  while (hasMore) {
+    const response = await notion.blocks.children.list({
+      block_id: pageId,
+      start_cursor: nextCursor,
+      page_size: 100, // Maximum page size
+    });
+
+    allBlocks = allBlocks.concat(response.results);
+    hasMore = response.has_more;
+    nextCursor = response.next_cursor || undefined;
+  }
+
+  return allBlocks;
 }
