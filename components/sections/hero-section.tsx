@@ -46,27 +46,27 @@ export function HeroSection() {
           className="space-y-8"
         >
           {/* Floating icons */}
-          <div className="flex justify-center space-x-8 mb-8">
+          <div className="flex justify-center space-x-4 sm:space-x-8 mb-8 mt-16 sm:mt-8">
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="p-3 bg-primary/10 rounded-full"
+              className="p-2 sm:p-3 bg-primary/10 rounded-full"
             >
-              <Brain className="w-6 h-6 text-primary" />
+              <Brain className="w-4 h-4 sm:w-6 sm:h-6 text-primary" />
             </motion.div>
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
-              className="p-3 bg-accent/10 rounded-full"
+              className="p-2 sm:p-3 bg-accent/10 rounded-full"
             >
-              <Sparkles className="w-6 h-6 text-accent" />
+              <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-accent" />
             </motion.div>
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
-              className="p-3 bg-secondary/10 rounded-full"
+              className="p-2 sm:p-3 bg-secondary/10 rounded-full"
             >
-              <TrendingUp className="w-6 h-6 text-secondary" />
+              <TrendingUp className="w-4 h-4 sm:w-6 sm:h-6 text-secondary" />
             </motion.div>
           </div>
 
