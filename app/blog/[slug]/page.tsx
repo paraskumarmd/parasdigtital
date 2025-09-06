@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { CodeBlock } from '@/components/ui/syntax-highlighter';
 
 // Add ISR for automatic updates
-// export const revalidate = 86400; // Revalidate every day
+export const revalidate = 3600; // Revalidate every hour
 
 // Add this function to generate all possible routes at build time
 export async function generateStaticParams() {
