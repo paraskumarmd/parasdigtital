@@ -68,9 +68,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const title = postData.properties?.Title?.title?.[0]?.plain_text || 'Untitled';
   const image = postData.properties?.featuredImage?.files?.[0]?.file?.url || postData.properties?.featuredImage?.files?.[0]?.external?.url || '';
 
+  // Debug logging for featured image
+  console.log('Featured image debug:', {
+    title,
+    image,
+    hasFeaturedImage: !!postData.properties?.featuredImage,
+    files: postData.properties?.featuredImage?.files
+  });
+
   // Fetch the full page content
   const pageContent = await getPageContent(postData.id);
- //console.log('Page content blocks:', pageContent);
+  
+  // Debug: Log image blocks specifically
+  const imageBlocks = pageContent.filter((block: any) => block.type === 'image');
+  console.log('Image blocks found:', imageBlocks.length);
+  imageBlocks.forEach((block: any, index: number) => {
+    console.log(`Image block ${index + 1}:`, {
+      id: block.id,
+      type: block.type,
+      hasFile: !!block.image?.file,
+      hasExternal: !!block.image?.external,
+      fileUrl: block.image?.file?.url,
+      externalUrl: block.image?.external?.url,
+      caption: block.image?.caption
+    });
+  });
 
   return (
     <main className="max-w-4xl mx-auto py-20 px-4">
@@ -159,24 +181,46 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 } else if (block.type === 'image') {
                   const imageUrl = block.image.file?.url || block.image.external?.url || '';
                   const caption = block.image.caption?.[0]?.plain_text || '';
-                  elements.push(
-                    <figure key={block.id} className="my-6">
-                      <div className="relative w-full h-96">
-                        <Image 
-                          src={imageUrl} 
-                          alt={caption || 'Blog image'} 
-                          fill
-                          className="object-contain rounded-lg"
-                          sizes="(max-width: 768px) 100vw, 800px"
-                        />
+                  
+                  // Debug logging
+                  console.log('Image block:', {
+                    id: block.id,
+                    imageUrl,
+                    caption,
+                    hasFile: !!block.image.file,
+                    hasExternal: !!block.image.external
+                  });
+                  
+                  if (imageUrl) {
+                    elements.push(
+                      <figure key={block.id} className="my-6">
+                        <div className="relative w-full h-96">
+                          <Image 
+                            src={imageUrl} 
+                            alt={caption || 'Blog image'} 
+                            fill
+                            className="object-contain rounded-lg"
+                            sizes="(max-width: 768px) 100vw, 800px"
+                          />
+                        </div>
+                        {caption && (
+                          <figcaption className="text-sm text-muted-foreground mt-2 text-center">
+                            {caption}
+                          </figcaption>
+                        )}
+                      </figure>
+                    );
+                  } else {
+                    // Fallback for missing images
+                    elements.push(
+                      <div key={block.id} className="my-6 p-8 bg-muted rounded-lg text-center">
+                        <p className="text-muted-foreground">Image could not be loaded</p>
+                        {caption && (
+                          <p className="text-sm text-muted-foreground mt-2">{caption}</p>
+                        )}
                       </div>
-                      {caption && (
-                        <figcaption className="text-sm text-muted-foreground mt-2 text-center">
-                          {caption}
-                        </figcaption>
-                      )}
-                    </figure>
-                  );
+                    );
+                  }
                 } else if (block.type === 'quote') {
                   elements.push(
                     <blockquote key={block.id} className="border-l-4 border-primary pl-4 my-6 italic text-muted-foreground">

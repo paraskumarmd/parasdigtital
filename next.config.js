@@ -4,8 +4,21 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { 
-    domains: ['prod-files-secure.s3.us-west-2.amazonaws.com', 's3.us-west-2.amazonaws.com'],
+    domains: [
+      'prod-files-secure.s3.us-west-2.amazonaws.com', 
+      's3.us-west-2.amazonaws.com',
+      'notion.so',
+      'www.notion.so',
+      'images.unsplash.com',
+      'via.placeholder.com'
+    ],
     unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   
   // Enable hybrid rendering for best performance + API routes
