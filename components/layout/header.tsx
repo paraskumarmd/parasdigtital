@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+
+// Declare dataLayer for TypeScript
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, Laptop } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -78,6 +85,19 @@ export function Header() {
       f.parentNode?.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-5P749ZQ8');
   }, []);
+
+  // Track page views for GTM on route changes
+  useEffect(() => {
+    // Push page view event to dataLayer
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'page_view',
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: pathname
+      });
+    }
+  }, [pathname]);
 
   // ========================================
 
