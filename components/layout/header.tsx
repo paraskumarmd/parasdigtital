@@ -55,6 +55,32 @@ export function Header() {
     else setTheme('light');
   };
 
+  // ========================================
+  // CUSTOM JAVASCRIPT CODE SECTION
+  // ========================================
+  // Add your custom JavaScript code here
+  // This section is reserved for any additional functionality
+  // you want to add to the header component
+  // Google Tag Manager initialization
+  useEffect(() => {
+    // Initialize Google Tag Manager
+    (function(w: any, d: any, s: string, l: string, i: string) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0];
+      var j = d.createElement(s) as HTMLScriptElement;
+      var dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode?.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5P749ZQ8');
+  }, []);
+
+  // ========================================
+
   return (
     <motion.header
       initial={{ y: -100 }}

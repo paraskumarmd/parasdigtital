@@ -75,6 +75,17 @@ export default function RootLayout({
         inter.variable,
         "min-h-screen bg-background font-sans antialiased"
       )}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5P749ZQ8"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+        
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
