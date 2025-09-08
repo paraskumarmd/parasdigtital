@@ -94,7 +94,13 @@ export function Header() {
         event: 'page_view',
         page_title: document.title,
         page_location: window.location.href,
-        page_path: pathname
+        page_path: pathname,
+        page_referrer: document.referrer,
+        user_language: navigator.language,
+        user_platform: (navigator as any).userAgentData?.platform || navigator.platform,
+        viewport_width: window.innerWidth,
+        viewport_height: window.innerHeight,
+        screen_resolution: `${screen.width}x${screen.height}`
       });
     }
   }, [pathname]);
