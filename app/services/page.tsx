@@ -1,7 +1,7 @@
 import { ServicesSection } from '@/components/sections/services-section';
 
 export const metadata = {
-  title: 'Services - Alex Johnson | AI Strategy & Digital Marketing Solutions',
+  title: 'Services - Paras Digital | AI Strategy & Digital Marketing Solutions',
   description: 'Comprehensive AI and digital marketing services including strategy implementation, analytics, automation, and personalization solutions.',
   keywords: ['AI strategy', 'digital marketing services', 'marketing automation', 'analytics', 'personalization'],
 };

@@ -15,7 +15,7 @@ export default function BlogPage() {
 
   // Set page title
   useEffect(() => {
-    document.title = 'Blog - Alex Johnson | AI & Digital Marketing Insights';
+    document.title = 'Blog - Paras Digital | AI & Digital Marketing Insights';
   }, []);
 
   useEffect(() => {
