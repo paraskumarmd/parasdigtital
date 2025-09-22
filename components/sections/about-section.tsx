@@ -6,26 +6,26 @@ import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 
 const skills = [
-  { name: 'Machine Learning', level: 95, icon: Brain },
-  { name: 'Digital Strategy', level: 98, icon: Target },
-  { name: 'Marketing Automation', level: 92, icon: Zap },
-  { name: 'Team Leadership', level: 88, icon: Users },
-  { name: 'Data Analytics', level: 94, icon: Award },
-  { name: 'Innovation', level: 96, icon: Lightbulb },
+  { id: 1, name: 'Google Ads (Paid Search)', label: 'Paid Search', level: 95, icon: Brain },
+  { id: 2, name: 'Digital Strategy & Planning', label: 'Digital Strategy', level: 98, icon: Target },
+  { id: 3, name: 'Marketing Automation (HubSpot / Mailchimp)', label: 'Marketing Automation', level: 92, icon: Zap },
+  { id: 4, name: 'Team Leadership & Client Management', label: 'Team Leadership', level: 88, icon: Users },
+  { id: 5, name: 'Data Analytics (GA4 / GTM / Looker)', label: 'Data Analytics', level: 94, icon: Award },
+  { id: 6, name: 'AI & Experimentation', label: 'AI / Innovation', level: 96, icon: Lightbulb },
 ];
 
 const values = [
   {
     title: "Innovation-Driven",
-    description: "Always exploring the latest AI technologies to solve complex marketing challenges.",
+    description: "I experiment with new tools and approaches, from AI audience models to automation workflows, to keep campaigns ahead of the curve",
   },
   {
     title: "Results-Focused",
-    description: "Every strategy is designed to deliver measurable business outcomes and ROI.",
+    description: "Every project is measured against clear business outcomes — revenue growth, lead generation, and ROI.",
   },
   {
     title: "Human-Centered",
-    description: "Technology should enhance human experiences, not replace meaningful connections.",
+    description: "Even with automation and AI, I prioritise customer experience, ensuring campaigns build trust and lasting relationships",
   },
 ];
 
@@ -81,13 +81,10 @@ export function AboutSection() {
             
             <div className="space-y-4 text-muted-foreground">
               <p>
-                With over 5 years of experience in both artificial intelligence and digital marketing, 
-                I've developed a unique perspective on how cutting-edge technology can drive real business growth.
+                I'm a Digital Marketing Specialist with 10+ years of experience helping brands grow through data-driven strategies and, more recently, AI-powered tools. My career has spanned agencies, SaaS, and eCommerce, where I've consistently delivered measurable results — from driving 60% YoY revenue growth to achieving a 107% increase in MQLs in just one quarter.
               </p>
               <p>
-                My journey began in machine learning research, where I discovered the immense potential 
-                of AI to understand and predict consumer behavior. This led me to specialize in applying 
-                these insights to create data-driven marketing strategies that deliver exceptional results.
+                Over the last few years, I've expanded my expertise into AI applications in marketing — using predictive analytics, automation, and customer segmentation to unlock smarter campaigns and more personalised customer journeys. My approach combines the creativity of marketing with the precision of data, ensuring that strategies don't just look good but deliver results.
               </p>
               <p>
                 Today, I help businesses of all sizes harness the power of AI to optimize their marketing 
@@ -182,7 +179,7 @@ export function AboutSection() {
               </Card>
               <Card className="p-6 text-center">
                 <CardContent className="p-0">
-                  <div className="text-2xl font-bold text-accent mb-1">$2M+</div>
+                  <div className="text-2xl font-bold text-primary mb-1">$2M+</div>
                   <div className="text-sm text-muted-foreground">Revenue Generated</div>
                 </CardContent>
               </Card>
