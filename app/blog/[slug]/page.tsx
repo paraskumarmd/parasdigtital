@@ -3,6 +3,7 @@ import { Client } from '@notionhq/client';
 import { getPageContent } from '@/lib/notion';
 import Image from 'next/image';
 import { CodeBlock } from '@/components/ui/syntax-highlighter';
+import { CommentList } from '@/components/comments/CommentList';
 
 // Add ISR for automatic updates
 export const revalidate = 3600; // Revalidate every hour
@@ -265,6 +266,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           })()}
         </div>
       </article>
+
+      {/* Comments Section */}
+      <section className="mt-16 pt-8 border-t">
+        <CommentList blogSlug={slug} />
+      </section>
     </main>
   );
 } 
