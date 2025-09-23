@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-// Removed UI component imports to avoid framer-motion dependency
+// Removed UI component imports to avoid framer-motion dependency.
 import { Reply, ExternalLink, Calendar } from 'lucide-react';
 import { CommentForm } from './CommentForm';
 
